@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -9,6 +10,7 @@ const Registers = () => {
     const [password, setPassword] = useState('');
     const {createUser, user} = useAuth();
     console.log(user)
+    const navigate = useNavigate();
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -16,7 +18,7 @@ const Registers = () => {
 
         try{
             await createUser(email, password);
-           
+           navigate("/")
         }catch(err){
             console.log(err)
         }

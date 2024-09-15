@@ -1,26 +1,32 @@
 
 import { useState } from "react";
 import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 
 const Login = () => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const{user, signIn} = useAuth();
+    const { user, signIn } = useAuth();
     console.log(user)
+    const navigate = useNavigate()
 
     const handleSignIn = async (e) => {
         e.preventDefault();
+        const toastId = toast.loading("Logging in.....")
 
-        try{
+        try {
             await signIn(email, password)
-        }catch(err)  {
-            console.log(err)
+            toast.success('Logged In....', { id: toastId })
+            navigate("/")
+        } catch (err) {
+           toast.error(err.message, {id: toastId})
         }
     };
 
-  
+
 
 
     return (
@@ -49,7 +55,7 @@ const Login = () => {
                             <input type="password"
                                 placeholder="password"
                                 className="input input-bordered" required
-                                onBlur={(e)=>setPassword(e.target.value)}
+                                onBlur={(e) => setPassword(e.target.value)}
 
                             />
                             <label className="label">
